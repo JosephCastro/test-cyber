@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberFoundation — Curso de Ciberseguridad 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a26;
+  --accent: #00e5ff;
+  --accent2: #7c6aff;
+  --danger: #ff4d6d;
+  --text: #e8e8f0;
+  --muted: #6b6b85;
+  --border: rgba(255,255,255,0.07);
+  --mono: 'DM Mono', monospace;
+  --display: 'Syne', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── GRID NOISE BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+.nav-logo span { color: var(--muted); }
+
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 8px 20px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+.nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 140px 24px 80px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero-glow2 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,106,255,0.10) 0%, transparent 70%);
+  top: 30%; left: 60%;
+  pointer-events: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  border: 1px solid rgba(0,229,255,0.3);
+  padding: 6px 16px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+  position: relative;
+}
+
+.hero h1 .strike {
+  position: relative;
+  color: var(--muted);
+}
+.hero h1 .strike::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 3px;
+  background: var(--danger);
+  transform: rotate(-1.5deg);
+}
+
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto 48px;
+  animation: fadeUp 0.6s 0.2s ease both;
+  line-height: 1.7;
+}
+
+.hero-sub strong { color: var(--text); font-weight: 500; }
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-primary {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 16px 36px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-primary:hover { background: #33ecff; transform: translateY(-2px); }
+
+.btn-secondary {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 16px 36px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: inline-block;
+}
+.btn-secondary:hover { border-color: var(--muted); transform: translateY(-2px); }
+
+.hero-stats {
+  display: flex;
+  gap: 0;
+  margin-top: 80px;
+  border: 1px solid var(--border);
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.hero-stat {
+  padding: 20px 40px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+  display: block;
+}
+.hero-stat-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-top: 4px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SECTION BASE ── */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.section-sub {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 60px;
+}
+
+/* ── DIVIDER ── */
+.full-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── WHY SECTION ── */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.why-card {
+  background: var(--surface);
+  padding: 36px 32px;
+  transition: background 0.2s;
+}
+.why-card:hover { background: var(--surface2); }
+
+.why-icon {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.why-card h3 {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.why-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── CURRICULUM ── */
+#curriculum { max-width: 1100px; }
+
+.module-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+
+.module-item {
+  background: var(--surface);
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: start;
+  gap: 0;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.module-item:hover { background: var(--surface2); }
+
+.mod-index {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  padding: 24px 0 24px 24px;
+  letter-spacing: 0.05em;
+  padding-top: 26px;
+}
+
+.mod-content { padding: 22px 24px; }
+
+.mod-name {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mod-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  letter-spacing: 0.08em;
+}
+.tag-lab { border: 1px solid rgba(0,229,255,0.4); color: var(--accent); }
+.tag-theory { border: 1px solid rgba(255,255,255,0.1); color: var(--muted); }
+.tag-career { border: 1px solid rgba(124,106,255,0.4); color: var(--accent2); }
+
+.mod-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s;
+  opacity: 0;
+}
+.mod-topics.open { max-height: 200px; opacity: 1; }
+
+.topic-pill {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.mod-hours {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  padding: 24px 24px 24px 0;
+  white-space: nowrap;
+  padding-top: 26px;
+}
+
+.total-row {
+  background: var(--surface2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-top: 1px solid rgba(0,229,255,0.2);
+}
+.total-row span {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+.total-row strong {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* ── FOR WHO ── */
+.forwhom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 60px;
+}
+.forwhom-card {
+  background: var(--surface);
+  padding: 36px 32px;
+}
+.forwhom-card h3 {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.forwhom-card h3.yes { color: var(--accent); }
+.forwhom-card h3.no { color: var(--danger); }
+.forwhom-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.forwhom-list li {
+  font-size: 14px;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+.forwhom-list li::before {
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.yes-list li::before { content: '+'; color: var(--accent); }
+.no-list li::before { content: '×'; color: var(--danger); }
+
+/* ── PATHS ── */
+.paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.path-card {
+  background: var(--surface);
+  padding: 28px 24px;
+  transition: background 0.2s;
+}
+.path-card:hover { background: var(--surface2); }
+.path-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.path-name {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--accent2);
+}
+.path-cert {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ── CTA ── */
+.cta-section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 24px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.cta-glow {
+  position: absolute;
+  width: 600px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.price-tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  margin-bottom: 32px;
+}
+
+.cta-section h2 {
+  font-family: var(--display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.cta-section p {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+
+.cta-guarantee {
+  margin-top: 24px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 40px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer .logo { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+footer .copy { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .hero-stat { padding: 16px 20px; }
+  .hero-stats { flex-wrap: wrap; }
+  .forwhom-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 12px; text-align: center; }
+  .module-item { grid-template-columns: 40px 1fr auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CYBER<span>/</span>FOUNDATION</div>
+  <ul class="nav-links">
+    <li><a href="#curriculum">Temario</a></li>
+    <li><a href="#para-quien">Para quién</a></li>
+    <li><a href="#especializaciones">Salidas</a></li>
+  </ul>
+  <a href="#inscribirse" class="nav-cta">Inscribirse →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="badge">EDICIÓN 2026 · ACTUALIZADO</div>
+
+  <h1>
+    Aprende a<br>
+    <em>hackear</em> y<br>
+    <span class="strike">ser hackeado</span>
+  </h1>
+
+  <p class="hero-sub">
+    El curso de ciberseguridad más orientado al mercado real.<br>
+    <strong>20 horas. 6 labs. 7 especializaciones posibles.</strong><br>
+    De cero a empleable.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#inscribirse" class="btn-primary">Comenzar ahora</a>
+    <a href="#curriculum" class="btn-secondary">Ver temario completo</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-num">20</span>
+      <span class="hero-stat-label">HORAS</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">6</span>
+      <span class="hero-stat-label">LABS REALES</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">7</span>
+      <span class="hero-stat-label">MÓDULOS</span>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-num">$0</span>
+      <span class="hero-stat-label">HERRAMIENTAS</span>
+    </div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- WHY -->
+<section class="reveal">
+  <span class="section-label">// POR QUÉ ESTE CURSO</span>
+  <h2 class="section-title">Diseñado para el<br>mercado de 2026</h2>
+  <p class="section-sub">No teórico. No desactualizado. Construido sobre lo que las empresas contratan hoy.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <span class="why-icon">[ 01 ] ORIENTACIÓN</span>
+      <h3>Mercado real primero</h3>
+      <p>Cada tema fue seleccionado revisando ofertas laborales en 2026. Sin relleno académico ni conceptos que nadie usa.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">[ 02 ] PRÁCTICA</span>
+      <h3>Labs con herramientas reales</h3>
+      <p>Wireshark, Metasploit, Burp Suite, Splunk, Prowler. Las mismas que usan los profesionales. Todas gratuitas.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">[ 03 ] AMPLITUD</span>
+      <h3>Generalista de verdad</h3>
+      <p>Tocas redes, hacking, defensa, web y cloud. Suficiente para saber qué te gusta y elegir tu especialización.</p>
+    </div>
+    <div class="why-card">
+      <span class="why-icon">[ 04 ] PROGRESIÓN</span>
+      <h3>Puerta a lo que viene</h3>
+      <p>Cada módulo te muestra exactamente qué curso tomar después: OSCP, AppSec, SOC, Cloud Security y más.</p>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- CURRICULUM -->
+<section id="curriculum" class="reveal">
+  <span class="section-label">// TEMARIO</span>
+  <h2 class="section-title">20 horas.<br>Sin paja.</h2>
+  <p class="section-sub">Haz clic en cada módulo para ver los temas en detalle.</p>
+
+  <div class="module-list" id="mod-list">
+
+    <div class="module-item" onclick="toggleMod(this)">
+      <span class="mod-index">01</span>
+      <div class="mod-content">
+        <div class="mod-name">Fundamentos y mentalidad de seguridad <span class="mod-tag tag-theory">TEORÍA</span></div>
+        <div class="mod-topics">
+          <span class="topic-pill">Roles de mercado 2026</span>
+          <span class="topic-pill">Red / Blue / Purple Team</span>
+          <span class="topic-pill">CIA Triad</span>
+          <span class="topic-pill">Threat modeling</span>
+          <span class="topic-pill">Lab: mapear superficie de ataque</span>
+        </div>
+      </div>
+      <span class="mod-hours">2 hrs</span>
+    </div>
+
+    <div class="module-item" onclick="toggleMod(this)">
+      <span class="mod-index">02</span>
+      <div class="mod-content">
+        <div class="mod-name">Redes y protocolos (lo que importa) <span class="mod-tag tag-lab">LAB</span></div>
+        <div class="mod-topics">
+          <span class="topic-pill">TCP/IP, DNS, HTTP/S</span>
+          <span class="topic-pill">TLS 1.3</span>
+          <span class="topic-pill">DNS como vector de ataque</span>
+          <span class="topic-pill">HTTP security headers</span>
+          <span class="topic-pill">Lab: Wireshark + captura de tráfico</span>
+        </div>
+      </div>
+      <span class="mod-hours">2.5 hrs</span>
+    </div>
+
+    <div class="module-item" onclick="toggleMod(this)">
+      <span class="mod-index">03</span>
+      <div class="mod-content">
+        <div class="mod-name">Hacking ético: cómo piensa el atacante <span class="mod-tag tag-lab">LAB</span></div>
+        <div class="mod-topics">
+          <span class="topic-pill">Kill Chain + MITRE ATT&CK</span>
+          <span class="topic-pill">OSINT y reconocimiento</span>
+          <span class="topic-pill">Nmap y Shodan</span>
+          <span class="topic-pill">Metasploit intro</span>
+          <span class="topic-pill">Lab: explotar Metasploitable</span>
+          <span class="topic-pill">Escalada de privilegios</span>
+        </div>
+      </div>
+      <span class="mod-hours">4 hrs</span>
+    </div>
+
+    <div class="module-item" onclick="toggleMod(this)">
+      <span class="mod-index">04</span>
+      <div class="mod-content">
+        <div class="mod-name">Seguridad web y OWASP Top 10 <span class="mod-tag tag-lab">LAB</span></div>
+        <div class="mod-topics">
+          <span class="topic-pill">OWASP Top 10 (2025–2026)</span>
+          <span class="topic-pill">SQL Injection</span>
+          <span class="topic-pill">XSS y CSRF</span>
+          <span class="topic-pill">Broken Access Control</span>
+          <span class="topic-pill">SSRF</span>
+          <span class="topic-pill">Lab: DVWA + Burp Suite</span>
+        </div>
+      </div>
+      <span class="mod-hours">3.5 hrs</span>
+    </div>
+
+    <div class="module-item" onclick="toggleMod(this)">
+      <span class="mod-index">05</span>
+      <div class="mod-content">
+        <div class="mod-name">Defensa, detección y respuesta (Blue Team) <span class="mod-tag tag-lab">LAB</span></div>
+        <div class="mod-topics">
+          <span class="topic-pill">Qué es un SOC</span>
+          <span class="topic-pill">SIEM: Splunk / ELK</span>
+          <span class="topic-pill">MITRE ATT&CK para defensa</span>
+          <span class="topic-pill">Incident Response</span>
+          <span class="topic-pill">Lab: investigar incidente en Splunk</span>
+        </div>
+      </div>
+      <span class="mod-hours">3 hrs</span>
+    </div>
+
+    <div class="module-item" onclick="toggleMod(this)">
+      <span class="mod-index">06</span>
+      <div class="mod-content">
+        <div class="mod-name">Cloud Security y DevSecOps <span class="mod-tag tag-lab">LAB</span></div>
+        <div class="mod-topics">
+          <span class="topic-pill">IAM y privilegios en AWS/Azure/GCP</span>
+          <span class="topic-pill">Misconfiguraciones comunes</span>
+          <span class="topic-pill">SAST / DAST</span>
+          <span class="topic-pill">Secret scanning (GitHub)</span>
+          <span class="topic-pill">Lab: auditar infra con Prowler</span>
+        </div>
+      </div>
+      <span class="mod-hours">3 hrs</span>
+    </div>
+
+    <div class="module-item" onclick="toggleMod(this)">
+      <span class="mod-index">07</span>
+      <div class="mod-content">
+        <div class="mod-name">Carrera, certificaciones y próximos pasos <span class="mod-tag tag-career">CARRERA</span></div>
+        <div class="mod-topics">
+          <span class="topic-pill">Mapa de certificaciones</span>
+          <span class="topic-pill">Cómo armar tu portafolio</span>
+          <span class="topic-pill">HackTheBox / TryHackMe</span>
+          <span class="topic-pill">LinkedIn en seguridad</span>
+          <span class="topic-pill">Elige tu especialización</span>
+        </div>
+      </div>
+      <span class="mod-hours">2 hrs</span>
+    </div>
+
+    <div class="total-row">
+      <span>TOTAL DEL CURSO</span>
+      <strong>20 horas</strong>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- FOR WHO -->
+<section id="para-quien" class="reveal">
+  <span class="section-label">// PARA QUIÉN</span>
+  <h2 class="section-title">Sé honesto<br>contigo mismo</h2>
+  <p class="section-sub">Este curso no es para todos. Eso es bueno.</p>
+
+  <div class="forwhom-grid">
+    <div class="forwhom-card">
+      <h3 class="yes">Este curso es para ti si...</h3>
+      <ul class="forwhom-list yes-list">
+        <li>Usas una computadora y quieres entender cómo te atacan</li>
+        <li>Trabajas en IT y quieres agregar seguridad a tu perfil</li>
+        <li>Estás estudiando sistemas o afines y quieres diferenciarte</li>
+        <li>Quieres cambiar de carrera hacia ciberseguridad</li>
+        <li>Buscas un overview antes de invertir en un curso especializado</li>
+      </ul>
+    </div>
+    <div class="forwhom-card">
+      <h3 class="no">Este curso NO es para ti si...</h3>
+      <ul class="forwhom-list no-list">
+        <li>Ya tienes experiencia en seguridad y buscas profundidad técnica</li>
+        <li>Quieres aprender a hackear sin contexto ético o legal</li>
+        <li>Buscas prepararte directamente para el OSCP o equivalente</li>
+        <li>No tienes tiempo para los labs prácticos</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- PATHS -->
+<section id="especializaciones" class="reveal">
+  <span class="section-label">// QUÉ SIGUE DESPUÉS</span>
+  <h2 class="section-title">7 caminos.<br>Tú eliges.</h2>
+  <p class="section-sub">Al terminar este curso, tendrás el mapa completo para elegir tu especialización. Cada una tiene su propio curso avanzado.</p>
+
+  <div class="paths-grid">
+    <div class="path-card">
+      <div class="path-num">01 / OFENSIVO</div>
+      <div class="path-name">Pentesting</div>
+      <div class="path-cert">→ OSCP</div>
+    </div>
+    <div class="path-card">
+      <div class="path-num">02 / APLICACIONES</div>
+      <div class="path-name">AppSec</div>
+      <div class="path-cert">→ GWEB / Bug Bounty</div>
+    </div>
+    <div class="path-card">
+      <div class="path-num">03 / DEFENSIVO</div>
+      <div class="path-name">Blue Team / SOC</div>
+      <div class="path-cert">→ CySA+ / GCIH</div>
+    </div>
+    <div class="path-card">
+      <div class="path-num">04 / NUBE</div>
+      <div class="path-name">Cloud Security</div>
+      <div class="path-cert">→ AWS Security Specialty</div>
+    </div>
+    <div class="path-card">
+      <div class="path-num">05 / DESARROLLO</div>
+      <div class="path-name">DevSecOps</div>
+      <div class="path-cert">→ CKS / GDEV</div>
+    </div>
+    <div class="path-card">
+      <div class="path-num">06 / LIDERAZGO</div>
+      <div class="path-name">GRC / Management</div>
+      <div class="path-cert">→ CISSP / CISM</div>
+    </div>
+    <div class="path-card">
+      <div class="path-num">07 / INVESTIGACIÓN</div>
+      <div class="path-name">Malware / DFIR</div>
+      <div class="path-cert">→ GCFE / GCFA</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- CTA -->
+<div class="cta-section reveal" id="inscribirse">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="price-tag">EDICIÓN ENERO 2026</div>
+    <h2>Empieza a<br><em style="color:var(--accent);font-style:normal">proteger.</em></h2>
+    <p>20 horas que cambian cómo ves la tecnología. Sin prerequisitos. Con labs. Con dirección.</p>
+    <a href="mailto:hola@cyberfoundation.io" class="btn-primary" style="font-size:14px;padding:18px 48px;">Quiero inscribirme →</a>
+    <div class="cta-guarantee">// Incluye acceso al material, labs y guía de especialización</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">CYBER/FOUNDATION</div>
+  <div class="copy">© 2026 · EDICIÓN LATINOAMÉRICA</div>
+</footer>
+
+<script>
+function toggleMod(el) {
+  const topics = el.querySelector('.mod-topics');
+  topics.classList.toggle('open');
+}
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
