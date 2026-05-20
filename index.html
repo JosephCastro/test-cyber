@@ -758,6 +758,30 @@ footer {
   .mod-row { grid-template-columns: 1fr auto; }
   footer { flex-direction: column; text-align: center; }
 }
+
+/* ── URGENCY BANNER ── */
+.urgency-banner {
+  position: fixed; top: 60px; left: 0; right: 0; z-index: 199;
+  background: var(--green);
+  overflow: hidden;
+  height: 32px;
+  display: flex; align-items: center;
+  border-bottom: 2px solid rgba(0,0,0,0.15);
+}
+.ub-track {
+  display: flex; white-space: nowrap;
+  animation: marquee 30s linear infinite;
+}
+.ub-item {
+  font-family: var(--mono); font-size: 11px;
+  font-weight: 600; letter-spacing: 0.13em;
+  color: #060606;
+  flex-shrink: 0;
+}
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 </style>
 </head>
 <body>
@@ -772,6 +796,15 @@ footer {
     <a href="#inscribirse" class="btn-nav">./inscribirse</a>
   </div>
 </nav>
+
+
+<!-- BANNER -->
+<div class="urgency-banner" role="alert">
+  <div class="ub-track">
+    <span class="ub-item">⚠&nbsp;&nbsp;CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp; CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp; CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp; CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp;&nbsp;</span>
+    <span class="ub-item" aria-hidden="true">⚠&nbsp;&nbsp;CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp; CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp; CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp; CUPOS LIMITADOS &nbsp;·&nbsp; INSCRÍBETE ANTES DE QUE SE AGOTEN &nbsp;·&nbsp;&nbsp;</span>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
@@ -1136,7 +1169,7 @@ footer {
               </svg>
             </div>
             <div class="photo-hint">
-              <img src="/images/profile.jpg"/>
+              <img src="./images/profile.jpg"/>
             </div>
           </div>
           <div class="photo-label">// instructora</div>
@@ -1210,9 +1243,6 @@ footer {
 <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
           </div>
         </div>
-
-        <a href="mailto:tu@email.com" class="btn-cta">./inscribirse →</a>
-        <p class="cta-note">// o escríbenos directamente y te enviamos toda la info</p>
       </div>
     </div>
   </div>
